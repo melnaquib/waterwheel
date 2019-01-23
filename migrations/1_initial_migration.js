@@ -5,8 +5,8 @@ const StringUtils = artifacts.require('./_testing/ClientRaindrop/StringUtils.sol
 const HydroToken = artifacts.require('./_testing/HydroToken.sol')
 const IdentityRegistry = artifacts.require('./_testing/IdentityRegistry.sol')
 const Snowflake = artifacts.require('./_testing/Snowflake.sol')
-const OldClientRaindrop = artifacts.require('./_testing/OldClientRaindrop.sol')
-const ClientRaindrop = artifacts.require('./resolvers/ClientRaindrop/ClientRaindrop.sol')
+const OldClientRaindrop = artifacts.require('./_testing/ClientRaindrop/OldClientRaindrop.sol')
+const ClientRaindrop = artifacts.require('./_testing/ClientRaindrop/ClientRaindrop.sol')
 
 // link libraries
 module.exports = async function(deployer) {
