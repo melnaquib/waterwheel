@@ -32,5 +32,6 @@ contract DefaultPlanAuth {
             if(!_allowedPlans[plans[i]]) return false;
         }
         return true;
+        
     }
 }

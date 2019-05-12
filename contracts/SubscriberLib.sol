@@ -27,28 +27,18 @@ library SubscriberLib {
         uint256 _cycleLimit;
     }
     
-    function subscribe(planAuth, Subscriber subscriber, address[] plans) public returns (bool) {
+    function subscribe(Subscriber subscriber, planAuth, address[] plans) public returns (bool) {
         return subscribers[ein].subscribe(planAuth, plans);
     }
 
-    function unsubscribe(int subscriptionIdx, uint depth) public returns (bool) {
-        return Subscriber.subscriptions[subscriptionIdx].unsubscribe(depth);
+    function unsubscribe(Subscriber subscriber, int subscriptionIdx, uint depth) public returns (bool) {
+        return subscriber.subscriptions[subscriptionIdx].unsubscribe(depth);
+    }
+    function getSubscriptions() returns(Subscriber subscriber, Subscription[]) {
+        return subscriber.subscriptions;
+    }
+    function getSubscription(Subscriber subscriber, uint256 subscriptionIdx) returns(Subscription) {
+        return subscriber.subscriptions[subscriptionIdx];
     }
 
-    event Payment(uint256 amount, uint256 nextDate);
-    
-    function collect(Subscriber subscriber) {
-        SubscriptionLib.Subscription[] subscriptions = subscriber.subscriptions;
-        uint256 total, closest = 0, ~uint256(0);
-        for (uint i = 0; i < subscriptions.length; i++) {
-            uint256 amount, uint256 nextDate = subscriptions[i].due();
-            //TODO
-            //pay
-            Paid(ein, i, amount, nextDate)
-
-            total += amount;
-            if(closest > nextDate) closest = nextDate;
-        }
-        PaidAll(ein, total, closest)
-    }
 }
