@@ -6,6 +6,7 @@ library DefaultPlanLib {
 
     int256[] tiers = [];//sorted asc, like 
     uint256 rates = [1000];
+    bool isFlat = true;
 
     function getSubscriptionTier(uint256 qty) public view returns (uint256 i) {
         i = 0;
@@ -15,6 +16,18 @@ library DefaultPlanLib {
                 break;
     }
 
+    function collect(SubscriberLib.Subscriber subscriber, uint256 subscriptionIdx, uint256 planIdx, uint256 prevAmount) view returns (uint256 amount) {
+        require(sinceDue >= 0, sinceDue);
+
+        uint tier = getSubscriptionTier(subscription.qty());
+        uint rate = rates[tier];
+
+        amount = rate;
+        if(!isFlat)
+            amount *= subscription.qty();
+
+    }
+
     function collect(SubscriptionLib.Subscription subscription) view returns (uint256 amount) {
         require(sinceDue >= 0, sinceDue);
 
@@ -22,58 +35,9 @@ library DefaultPlanLib {
         uint rate = rates[tier];
 
         amount = rate;
-
-        if(!subscription.isFlat) {
+        if(!isFlat)
             amount *= subscription.qty();
-        }
 
-        // subscription.lastPaidDate = now;
-        // subscription.lastPaidDueDate = now;
-        // subscription.lastPaidAmount = amount;
-        uint tier = getSub
-
-    bool isDue() {
-
-    }
-
-    function getSubscriptionTier(uint256 qty) public view returns (uint256 i) 
-        uint tier = getSub
-
-    bool isDue() {
-
-    }
-
-    function getSubscriptionTier(uint256 qty) public view returns (uint256 i) 
-
-    }
-
-    enum Cycle { MONTHLY, QUATERLY, YEARLY};
-    uint256[] constant public CycleTimes = [year / 12, year / 4, rear];
-    
-    struct DefaultPlan {
-    Cycle _cycle;
-
-    uint256 constant public _start;
-    uint256 constant public _delay;
-    uint256 constant public _cycleStart; //what monht /  quarter / year
-    }
-    
-    int256 private _qty;
-    uint256 constant public _rate;
-
-    float discount_percentage = 1.0;
-    uint256 discount_amount = 0;
-
-
-    uint256 times = 1;
-
-
-    function due(SubscriberResolver prevAmount, int idx, uint256 prevDate, uint256 prevAmount) constant returns (uint dueDate, uint256 dueAmount, PlanResolver[] nextPlans) {
-        dueDate = prevDate;
-        dueAmount = int(dueAmount * discount_percentage);
-        dueAmount -= discount);
-        uint256 dueAmount = prevDate;
-        PlanResolver[] nextPlans = SubscriberResolver.planStack_list();
     }
 
 }
