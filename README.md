@@ -26,3 +26,33 @@ First, ensure that you have properly escrowed funds using `withdrawSnowflakeBala
 
 ### What if I don't want to pass any bytes in my Via calls?
 Simply use `hex""` to pass an empty argument.
+
+## Overview
+
+### Waterwheel contract
+Deployed by vendor, manages list of subscribers
+
+#### Subscribers
+Identified by their EIN, each has a list of subscriptions
+
+### Subscrption
+Manages Subscriber subscription to an individual service provided by vendor, no restriction on how many times a use can subscribe to a single service, or have a single subscription to handle a quantity of more than 1 "units" of provided product
+Each subscription holds info like when subscription started etc. and delegates cost calculation to a list of "Plans"
+
+### Plan
+Plan is a contract that uses subscriber and subscrption data to calculate the cost, Plans; and plan addons, same here; examples are
+"1000 hydro monthly for a website hosting"
+"10 000 hydro annually for wordpress hosting avaialble only to subscriber wiht qty more than a specifc amount, etc."
+"10% discount on subscription for one time avialble to EINs only from Russia"
+"500 hydro gift card usable 3 times, and transferable between users"
+"tiered plan"
+"prorating " etc.
+A subscriber has to be authorized to subscribe to a plan and add it to a subscription list, but can unsubscribe from such plans at his own will.
+
+### PlanCollector
+Is responsible on how to execute plan lists,current default impl just calls them in order and returns the value of the last plan "collect" invokation
+
+
+## Known arch issues,
+if collection fails, e.g; not enough credit still invoking collect method on plan would count as used once, not a little modification on invokation to roll back in case of failure
+
